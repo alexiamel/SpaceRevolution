@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 131205724}
   - component: {fileID: 131205723}
   - component: {fileID: 131205726}
+  - component: {fileID: 131205727}
   m_Layer: 0
   m_Name: player_0
   m_TagString: Untagged
@@ -250,6 +251,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!61 &131205727
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131205722}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.20473158, y: -0.20905662}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.4, y: 2.68}
+    newSize: {x: 2.4, y: 2.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.310674, y: 1.9219556}
+  m_EdgeRadius: 0
 --- !u!1 &952436900
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,6 +333,7 @@ GameObject:
   - component: {fileID: 1750270095}
   - component: {fileID: 1750270097}
   - component: {fileID: 1750270096}
+  - component: {fileID: 1750270098}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -559,6 +587,22 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &1750270098
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750270094}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0.00001
 --- !u!1 &1951309486
 GameObject:
   m_ObjectHideFlags: 0
