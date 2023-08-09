@@ -3,57 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] LayerMask groundLayer;
 
-    private float gravity = -50f;
-    private CharacterController charControl;
-    private Vector3 velocity;
+    public Rigidbody myBody;
+
+    [SerializeField] LayerMask groundLayer;
     [SerializeField] bool isGrounded;
+
     private float horizontalInput, jumpInput;
-    public float charSpeed, charJump;
+
+    public float charSpeed, charJump, gravity, scale;
+
     [SerializeField] float checkRadius;
     public GameObject checkGround;
+
     public Animator myAnim;
-    public string currentState;
+    private string currentState;
+
     public TMP_Text coinsText;
     public int coins;
     // Start is called before the first frame update
     void Start()
     {
-        charControl = GetComponent<CharacterController>();
+        myBody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        jumpInput = Input.GetAxis("Jump");
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        jumpInput = Input.GetAxisRaw("Jump");
 
         Animations();
-        transform.forward = new Vector3(horizontalInput, 0, Mathf.Abs(horizontalInput) - 1);
 
         isGrounded = Physics.CheckSphere(checkGround.transform.position, checkRadius, groundLayer, QueryTriggerInteraction.Ignore);
-
-        if (isGrounded && velocity.y < 0)
+    }
+    private void FixedUpdate()
+    {
+        if (jumpInput > 0 && isGrounded)
         {
-            velocity.y = 0;
+            myBody.AddForce(transform.up * charJump, ForceMode.Impulse);
+        }
+
+        if (!isGrounded)
+        {
+            myBody.velocity = new Vector3(charSpeed * horizontalInput, myBody.velocity.y - gravity, myBody.velocity.z);
         }
         else
         {
-            velocity.y += gravity * Time.deltaTime;
+            myBody.velocity = new Vector3(charSpeed * horizontalInput, myBody.velocity.y, myBody.velocity.z);
         }
 
-        charControl.Move(new Vector3(horizontalInput * charSpeed, 0, 0) * Time.deltaTime);
-
-        if (isGrounded && jumpInput > 0)
-        {
-            velocity.y += Mathf.Sqrt(charJump * -2 * gravity);
-        }
-
-        charControl.Move(velocity * Time.deltaTime);
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(checkGround.transform.position, checkRadius);
     }
     private void Animations()
     {
@@ -69,6 +77,14 @@ public class PlayerController : MonoBehaviour
         {
             ChangeAnimationState("Jumping");
         }
+        if (horizontalInput == 1)
+        {
+            transform.localRotation = Quaternion.Euler(0, 90, 0);
+        }
+        if (horizontalInput == -1)
+        {
+            transform.localRotation = Quaternion.Euler(0, 270, 0);
+        }
     }
     void ChangeAnimationState(string newState)
     {
@@ -76,6 +92,13 @@ public class PlayerController : MonoBehaviour
             return;
 
         myAnim.Play(newState);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

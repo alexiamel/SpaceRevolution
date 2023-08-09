@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     private float speed = 5;
     //componente animator
     public Animator animator;
-    private bool isJumping = false;
+    public bool isJumping = false;
     private float JumpForce = 8;
     void Start()
     {
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
             animator.SetBool("isMoving", false);
         }
         //verifica de a tecla espaco foi pressionada
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && isJumping == false)
         {
             rig.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
         }
